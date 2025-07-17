@@ -1,0 +1,89 @@
+.o_action_manager {
+    overflow: auto !important;
+}
+.property_dashboard {
+    background-color: #f5f5f7 !important;
+    height: 100%;
+    .d-flex {
+        display: flex;
+    }
+    just-end {
+        justify-content: flex-end;
+    }
+
+    .tk-form-control {
+        border-radius: 1px !important;
+        border: none !important;
+        background-color: #eef3f7;
+        border-color: #F5F8FA;
+        color: #5E6278;
+        transition: color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .tk-btn-prime {
+        border-radius: 1px !important;
+    }
+
+    .me-2 {
+        margin-right: .5rem !important;
+    }
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        margin: 0px -1px -1px 0px;
+        background-clip: border-radius;
+        border: 2px;
+        box-shadow: 0 0 20px 0 rgba(76, 87, 125, .02);
+    }
+    .card.card-xl-stretch.mb-xl-8:hover {
+        transform: translateY(-5px) scale(1.005) translateZ(0);
+        box-shadow: 0 24px 36px rgba(0, 0, 0, 0.11), 0 24px 46px transparent;
+        cursor: pointer;
+    }
+    .card-body {
+        width: 1000px;
+        height: 1000px;
+    }
+    .card-p {
+        padding: 1rem 1.25rem !important;
+        border-radius: 100px !important;
+        background-color: #f5e5e1 !important
+    }
+    .flex-stack {
+        justify-content: space-between;
+        align-items: center;
+    }
+    .flex-grow-1 {
+        flex-grow: 1 !important;
+    }
+    .d-flex {
+        display: flex !important;
+    }
+    .symbol {
+        display: inline-block;
+        flex-shrink: 0;
+        position: relative;
+        border-radius: .475rem;
+    }
+
+    .text-end {
+    text-align: right;
+}
+    .symbol .symbol-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        color: #3f4254;
+        background-color: #f5f8fa;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        border-radius: .475rem;
+        width: 50px;
+        height: 100px;
+    }
+    }
