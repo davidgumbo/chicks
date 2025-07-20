@@ -4,8 +4,7 @@
     <menuitem id="employee_purchase_requisition_menu_root"
               name="Employee Purchase Requisition"
               web_icon="employee_purchase_requisition,static/description/icon.png"
-              action="employee_purchase_requisition_action"
-              sequnce="10"/>
+              action="employee_purchase_requisition_action"/>
 
     <menuitem id="employee_purchase_requisition_menu_create_purchase_requisition"
               name="Purchase Requisition"
