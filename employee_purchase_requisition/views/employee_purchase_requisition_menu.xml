@@ -2,7 +2,7 @@
 <odoo>
     <!-- Employee Purchase Requisition menu -->
     <menuitem id="employee_purchase_requisition_menu_root"
-              name="Employee Purchase Requisition"
+              name="Purchase Requisition"
               web_icon="employee_purchase_requisition,static/description/icon.png"
               action="employee_purchase_requisition_action"/>
 

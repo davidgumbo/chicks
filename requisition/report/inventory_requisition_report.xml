@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_inventory_requisition" model="ir.actions.report">
+        <field name="name">Inventory Requisition Report</field>
+        <field name="model">inventory.requisition</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">requisition.report_inventory_requisition</field>
+        <field name="report_file">requisition.report_inventory_requisition</field>
+    </record>
+</odoo>

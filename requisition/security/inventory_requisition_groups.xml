@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.module.category" id="inventory_requisition">
+        <field name="name">Inventory Requisition</field>
+        <field name="description">User access level for Inventory Requisition module</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <record id="inventory_requisition_user" model="res.groups">
+        <field name="name">Requisition Users</field>
+        <field name="category_id" ref="inventory_requisition"/>
+    </record>
+
+    <record id="inventory_requisition_head" model="res.groups">
+        <field name="name">Department Head</field>
+        <field name="category_id" ref="inventory_requisition"/>
+        <field name="implied_ids" eval="[(4, ref('requisition.inventory_requisition_user'))]"/>
+    </record>
+
+    <record id="inventory_requisition_manager" model="res.groups">
+        <field name="name">Requisition Manager</field>
+        <field name="category_id" ref="inventory_requisition"/>
+        <field name="implied_ids" eval="[(4, ref('requisition.inventory_requisition_head'))]"/>
+    </record>
+</odoo>

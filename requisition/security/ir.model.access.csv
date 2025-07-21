@@ -1,0 +1,5 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_inventory_requisition_manager,inventory.requisition,model_inventory_requisition,requisition.inventory_requisition_manager,1,1,0,0
+access_inventory_requisition_head,inventory.requisition,model_inventory_requisition,requisition.inventory_requisition_head,1,1,0,0
+access_inventory_requisition_user,inventory.requisition,model_inventory_requisition,requisition.inventory_requisition_user,1,1,1,1
+access_requisition_order,inventory.requisition,model_requisition_order,base.group_user,1,1,1,1
