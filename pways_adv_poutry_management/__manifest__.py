@@ -48,7 +48,6 @@
         'views/hatchery_view.xml',
         'views/chicken_egg_distribution_view.xml',
         'views/menu.xml',
-        'views/res_config_settings_views.xml',
     ],
 
     'assets': {
