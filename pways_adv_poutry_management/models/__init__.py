@@ -12,3 +12,4 @@ from . import production_summary
 from . import hen_veterinary
 from . import chicken_hatchery_poultry
 from . import chicken_egg_distribution
+from . import res_config_settings

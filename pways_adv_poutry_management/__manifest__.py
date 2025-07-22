@@ -20,7 +20,8 @@
     'category': 'Industries',
     'author': 'Preciseways Private Limited',
     'version': '17.0',
-    'depends': ['base','stock','mrp','sale_management','purchase','product','maintenance','project','hr','hr_timesheet'],
+    'depends': ['base', 'stock', 'mrp', 'sale_management', 'purchase', 'product', 'maintenance', 'project', 'hr',
+                'hr_timesheet'],
     'data': [
         'security/poultry_groups.xml',
         'security/ir.model.access.csv',
@@ -47,23 +48,24 @@
         'views/hatchery_view.xml',
         'views/chicken_egg_distribution_view.xml',
         'views/menu.xml',
-        ],
- 
+        'views/res_config_settings_views.xml',
+    ],
+
     'assets': {
-       'web.assets_backend': [
+        'web.assets_backend': [
             'pways_adv_poutry_management/static/src/css/style.scss',
             'pways_adv_poutry_management/static/src/css/style.css',
             'pways_adv_poutry_management/static/src/js/custom.js',
             'pways_adv_poutry_management/static/src/xml/dashboard.xml',
             "https://www.gstatic.com/charts/loader.js",
             "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js",
-       ],
+        ],
     },
- 
+
     "Application": True,
     "installable": True,
     'price': 111.0,
     'currency': 'EUR',
-    'images':['static/description/banner.png'],
+    'images': ['static/description/banner.png'],
     'license': 'OPL-1',
 }
