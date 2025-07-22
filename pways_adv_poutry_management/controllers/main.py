@@ -16,8 +16,8 @@ class PoultryControllerDashboard(http.Controller):
             end_date = datetime.today()
             start_date = end_date - timedelta(days=30)
         else:
-            start_date = datetime.strptime(start_date_str, '%Y-%m-%d %H:%M')
-            end_date = datetime.strptime(end_date_str, '%Y-%m-%d %H:%M')
+            start_date = datetime.strptime(start_date_str, '%Y-%m-%d')
+            end_date = datetime.strptime(end_date_str, '%Y-%m-%d')
 
         incoming_farm_purchase_count = request.env['incomming.farm.po'].sudo().search_count(
             [('state', '=', 'draft'),('date', '>=', start_date),('date', '<=', end_date),])
@@ -112,8 +112,8 @@ class AnimalDashboardController(http.Controller):
             end_date = datetime.today()
             start_date = end_date - timedelta(days=30)
         else:
-            start_date = datetime.strptime(start_date_str, '%Y-%m-%d %H:%M').date()
-            end_date = datetime.strptime(end_date_str, '%Y-%m-%d %H:%M').date()
+            start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+            end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
 
         death_monthly_data = [['Month', 'Death']]
         production_monthly_data = [['Month', 'Production']]
