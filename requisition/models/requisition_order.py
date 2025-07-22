@@ -20,6 +20,7 @@ class RequisitionOrder(models.Model):
     uom = fields.Char(related='product_id.uom_id.name',
                      string='Unit of Measure', help='Product unit of measure')
     requisition_type= fields.Text(string='Requisition Type')
+    partner_id = fields.Text(string='Partner ID')
 
     @api.depends('product_id')
     def _compute_name(self):
