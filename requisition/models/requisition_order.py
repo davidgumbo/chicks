@@ -19,6 +19,7 @@ class RequisitionOrder(models.Model):
     quantity = fields.Integer(string='Quantity', help='Product quantity')
     uom = fields.Char(related='product_id.uom_id.name',
                      string='Unit of Measure', help='Product unit of measure')
+    requisition_type= fields.Text(related='requisition_product_id.requisition_type.name')
 
     @api.depends('product_id')
     def _compute_name(self):
