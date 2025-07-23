@@ -4,7 +4,23 @@ from odoo.http import request
 from collections import defaultdict
 from dateutil.relativedelta import relativedelta
 
+
 class PoultryControllerDashboard(http.Controller):
+
+    def _parse_datetime_with_microseconds(self, date_str):
+        """Parse datetime string that may or may not include microseconds"""
+        if not isinstance(date_str, str):
+            return None
+
+        try:
+            # Try with microseconds first
+            return datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S.%f')
+        except ValueError:
+            try:
+                # Fall back to seconds only
+                return datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
+            except ValueError:
+                return None
 
     @http.route('/dashboard/poultry/count', type='json', auth='user')
     def get_poultry_count(self):
@@ -12,69 +28,72 @@ class PoultryControllerDashboard(http.Controller):
         start_date_str = request.env['ir.config_parameter'].sudo().get_param('pways_adv_poutry_management.start_date')
         end_date_str = request.env['ir.config_parameter'].sudo().get_param('pways_adv_poutry_management.end_date')
 
-        if not isinstance(start_date_str, str) or not isinstance(end_date_str, str):
+        start_date = self._parse_datetime_with_microseconds(start_date_str)
+        end_date = self._parse_datetime_with_microseconds(end_date_str)
+
+        if not start_date or not end_date:
             end_date = datetime.today()
             start_date = end_date - timedelta(days=30)
-        else:
-            start_date = datetime.strptime(start_date_str, '%Y-%m-%d %H:%M:%S')
-            end_date = datetime.strptime(end_date_str, '%Y-%m-%d %H:%M:%S')
 
         incoming_farm_purchase_count = request.env['incomming.farm.po'].sudo().search_count(
-            [('state', '=', 'draft'),('date', '>=', start_date),('date', '<=', end_date),])
-        
+            [('state', '=', 'draft'), ('date', '>=', start_date), ('date', '<=', end_date), ])
+
         death_summary_count = request.env['death.summary'].sudo().search_count(
-            [('state', '=', 'scrap'), ('date', '>=', start_date),('date', '<=', end_date)])
-        
+            [('state', '=', 'scrap'), ('date', '>=', start_date), ('date', '<=', end_date)])
+
         feed_table_count = request.env['feed.table'].sudo().search_count(
-            [('state', '=', 'approve'), ('date_from', '>=', start_date),('date_to', '<=', end_date)])
-        
+            [('state', '=', 'approve'), ('date_from', '>=', start_date), ('date_to', '<=', end_date)])
+
         hen_expense_count = request.env['hen.expense'].sudo().search_count(
-            [('state', '=', 'done'), ('today_date', '>=', start_date),('today_date', '<=', end_date)])
-        
+            [('state', '=', 'done'), ('today_date', '>=', start_date), ('today_date', '<=', end_date)])
+
         inward_transfer_count = request.env['inward.transfer'].sudo().search_count(
             [('state', '=', 'approve'), ('date', '>=', start_date), ('date', '<=', end_date)])
-        
+
         production_summary_count = request.env['production.summary'].sudo().search_count(
-            [('state', '=', 'approve'), ('date', '>=', start_date),('date', '<=', end_date)])
-        
+            [('state', '=', 'approve'), ('date', '>=', start_date), ('date', '<=', end_date)])
+
         scrap_count = request.env['stock.scrap'].sudo().search_count(
-            [('state', '=', 'done'),('hatchery_poultry_id', '!=', False), ('date_done', '>=', start_date),('date_done', '<=', end_date)])
-        
-        cost_estimation_count = request.env['hen.cost.estimation'].sudo().search_count([('start_date', '>=', start_date),('end_date', '<=', end_date)])
-        
-        hen_veterinary_count = request.env['hen.veterinary'].sudo().search_count([('state', '=', 'draft'), ('appointment_date', '>=', start_date),('appointment_date', '<=', end_date)])
-        
+            [('state', '=', 'done'), ('hatchery_poultry_id', '!=', False), ('date_done', '>=', start_date),
+             ('date_done', '<=', end_date)])
+
+        cost_estimation_count = request.env['hen.cost.estimation'].sudo().search_count(
+            [('start_date', '>=', start_date), ('end_date', '<=', end_date)])
+
+        hen_veterinary_count = request.env['hen.veterinary'].sudo().search_count(
+            [('state', '=', 'draft'), ('appointment_date', '>=', start_date), ('appointment_date', '<=', end_date)])
+
         hatchery_picking_count = request.env['stock.picking'].sudo().search_count(
-            [('state', '=', 'done'),('hatchery_poultry_id', '!=', False), ('scheduled_date', '>=', start_date),
-            ('scheduled_date', '<=', end_date)])
-        
+            [('state', '=', 'done'), ('hatchery_poultry_id', '!=', False), ('scheduled_date', '>=', start_date),
+             ('scheduled_date', '<=', end_date)])
+
         project_count = request.env['project.project'].sudo().search_count(
             [('poultry', '!=', False), ('date_start', '>=', start_date),
-            ('date', '<=', end_date)])
+             ('date', '<=', end_date)])
 
         farm_house_count = request.env['chicken.farm'].sudo().search_count([('states', '=', 'approve')])
-        
+
         inward_farm_house_count = request.env['chicken.house'].sudo().search_count([('production_type', '=', 'normal')])
-        
-        prodcution_farm_house_count = request.env['chicken.house'].sudo().search_count([('production_type', '=', 'production')])
-        
-        
+
+        prodcution_farm_house_count = request.env['chicken.house'].sudo().search_count(
+            [('production_type', '=', 'production')])
+
         main_product_count = request.env['product.product'].sudo().search_count([('is_chicken', '=', True)])
-        
+
         final_product_count = request.env['product.product'].sudo().search_count([('last_product', '=', True)])
-        
-        bill_count = request.env['account.move'].sudo().search_count([('move_type', '=', 'in_invoice'), ('invoice_date', '>=', start_date),
-            ('invoice_date_due', '<=', end_date)])
-        
+
+        bill_count = request.env['account.move'].sudo().search_count(
+            [('move_type', '=', 'in_invoice'), ('invoice_date', '>=', start_date),
+             ('invoice_date_due', '<=', end_date)])
+
         labour_sheets_count = request.env['account.analytic.line'].sudo().search_count([('date', '>=', start_date),
-            ('date', '<=', end_date)])
-        
+                                                                                        ('date', '<=', end_date)])
+
         hr_employee_count = request.env['hr.employee'].sudo().search_count([])
-        
+
         project_task_count = request.env['project.task'].sudo().search_count([('date_deadline', '>=', start_date),
-            ('date_deadline', '<=', end_date)])
-          
-        
+                                                                              ('date_deadline', '<=', end_date)])
+
         data = {
             'incoming_farm_purchase_count': incoming_farm_purchase_count,
             'death_summary_count': death_summary_count,
@@ -96,11 +115,26 @@ class PoultryControllerDashboard(http.Controller):
             'labour_sheets_count': labour_sheets_count,
             'hr_employee_count': hr_employee_count,
             'project_task_count': project_task_count,
-            }
+        }
         return data
 
 
 class AnimalDashboardController(http.Controller):
+
+    def _parse_datetime_with_microseconds(self, date_str):
+        """Parse datetime string that may or may not include microseconds"""
+        if not isinstance(date_str, str):
+            return None
+
+        try:
+            # Try with microseconds first
+            return datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S.%f')
+        except ValueError:
+            try:
+                # Fall back to seconds only
+                return datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
+            except ValueError:
+                return None
 
     @http.route('/animal/dashboard', type='json', auth='user')
     def _get_animal_dashboard_values(self):
@@ -108,19 +142,22 @@ class AnimalDashboardController(http.Controller):
         start_date_str = request.env['ir.config_parameter'].sudo().get_param('pways_adv_poutry_management.start_date')
         end_date_str = request.env['ir.config_parameter'].sudo().get_param('pways_adv_poutry_management.end_date')
 
-        if not isinstance(start_date_str, str) or not isinstance(end_date_str, str):
+        start_date_dt = self._parse_datetime_with_microseconds(start_date_str)
+        end_date_dt = self._parse_datetime_with_microseconds(end_date_str)
+
+        if not start_date_dt or not end_date_dt:
             end_date = datetime.today()
             start_date = end_date - timedelta(days=30)
         else:
-            start_date = datetime.strptime(start_date_str, '%Y-%m-%d %H:%M:%S').date()
-            end_date = datetime.strptime(end_date_str, '%Y-%m-%d %H:%M:%S').date()
+            start_date = start_date_dt.date()
+            end_date = end_date_dt.date()
 
         death_monthly_data = [['Month', 'Death']]
         production_monthly_data = [['Month', 'Production']]
         inward_monthly_data = [['Month', 'Production']]
         expenses_monthly_data = [['Month', 'Expenses']]
         final_production_monthly_data = [['Month', 'Final production ']]
-        
+
         # Death
         death_summary = request.env['death.summary'].search([
             ('date', '>=', start_date),
@@ -135,14 +172,14 @@ class AnimalDashboardController(http.Controller):
             ('state', '=', 'approve'),
         ])
 
-        #Inward
+        # Inward
         inward_data = request.env['incomming.farm.po'].search([
             ('date', '>=', start_date),
             ('date', '<=', end_date),
             ('state', '=', 'done'),
         ])
 
-        #Expenses
+        # Expenses
         expenses_data = request.env['hen.expense'].search([
             ('today_date', '>=', start_date),
             ('today_date', '<=', end_date),
@@ -178,14 +215,14 @@ class AnimalDashboardController(http.Controller):
             )
             production_monthly_data.append([month_name, monthly_production])
 
-            #Inward
+            # Inward
             monthly_inward_data = sum(
                 1 for inward in inward_data
                 if inward.date and first_day <= inward.date <= last_day
             )
             inward_monthly_data.append([month_name, monthly_inward_data])
 
-            #Expenses
+            # Expenses
             monthly_expenses_data = sum(
                 1 for expenses in expenses_data
                 if expenses.today_date and first_day <= expenses.today_date <= last_day
