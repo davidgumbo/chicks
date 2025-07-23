@@ -12,15 +12,39 @@ class PoultryControllerDashboard(http.Controller):
         if not isinstance(date_str, str):
             return None
 
-        try:
-            # Try with microseconds first
-            return datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S.%f')
-        except ValueError:
+        # Clean the string and handle various formats
+        date_str = date_str.strip()
+
+        # List of possible formats to try
+        formats = [
+            '%Y-%m-%d %H:%M:%S.%f',  # With microseconds
+            '%Y-%m-%d %H:%M:%S',  # Without microseconds
+            '%Y-%m-%d',  # Date only
+        ]
+
+        for fmt in formats:
             try:
-                # Fall back to seconds only
-                return datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
+                return datetime.strptime(date_str, fmt)
             except ValueError:
-                return None
+                continue
+
+        # If all formats fail, try to handle the case manually
+        try:
+            # Handle case where microseconds might be longer than 6 digits
+            if '.' in date_str:
+                main_part, microsecond_part = date_str.rsplit('.', 1)
+                # Truncate or pad microseconds to exactly 6 digits
+                if len(microsecond_part) > 6:
+                    microsecond_part = microsecond_part[:6]
+                else:
+                    microsecond_part = microsecond_part.ljust(6, '0')
+
+                cleaned_str = f"{main_part}.{microsecond_part}"
+                return datetime.strptime(cleaned_str, '%Y-%m-%d %H:%M:%S.%f')
+        except ValueError:
+            pass
+
+        return None
 
     @http.route('/dashboard/poultry/count', type='json', auth='user')
     def get_poultry_count(self):
@@ -126,15 +150,39 @@ class AnimalDashboardController(http.Controller):
         if not isinstance(date_str, str):
             return None
 
-        try:
-            # Try with microseconds first
-            return datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S.%f')
-        except ValueError:
+        # Clean the string and handle various formats
+        date_str = date_str.strip()
+
+        # List of possible formats to try
+        formats = [
+            '%Y-%m-%d %H:%M:%S.%f',  # With microseconds
+            '%Y-%m-%d %H:%M:%S',  # Without microseconds
+            '%Y-%m-%d',  # Date only
+        ]
+
+        for fmt in formats:
             try:
-                # Fall back to seconds only
-                return datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
+                return datetime.strptime(date_str, fmt)
             except ValueError:
-                return None
+                continue
+
+        # If all formats fail, try to handle the case manually
+        try:
+            # Handle case where microseconds might be longer than 6 digits
+            if '.' in date_str:
+                main_part, microsecond_part = date_str.rsplit('.', 1)
+                # Truncate or pad microseconds to exactly 6 digits
+                if len(microsecond_part) > 6:
+                    microsecond_part = microsecond_part[:6]
+                else:
+                    microsecond_part = microsecond_part.ljust(6, '0')
+
+                cleaned_str = f"{main_part}.{microsecond_part}"
+                return datetime.strptime(cleaned_str, '%Y-%m-%d %H:%M:%S.%f')
+        except ValueError:
+            pass
+
+        return None
 
     @http.route('/animal/dashboard', type='json', auth='user')
     def _get_animal_dashboard_values(self):
@@ -201,7 +249,7 @@ class AnimalDashboardController(http.Controller):
             last_day = (first_day + relativedelta(months=1)) - timedelta(days=1)
             month_name = first_day.strftime('%b %Y')
 
-            # Death 
+            # Death
             monthly_death = sum(
                 1 for death in death_summary
                 if death.date and first_day <= death.date <= last_day
