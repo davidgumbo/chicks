@@ -1,0 +1,32 @@
+<odoo>
+    <data>
+        <record id="traceability_wizard_form_view" model="ir.ui.view">
+            <field name="name">Traceability Wizard</field>
+            <field name="model">traceability.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="traceability_from" string="Traceability Type"/>
+                            <field name="lot_id" string="Lots/Serial Numbers" invisible="traceability_from != 'lot'"/>
+                            <field name="farm_house_id" string="House" invisible="traceability_from != 'location'"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="action_open_traceability" type="object" string="Traceability" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_traceability_wizard" model="ir.actions.act_window">
+            <field name="name">Traceability Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">traceability.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    
+    </data>
+</odoo>

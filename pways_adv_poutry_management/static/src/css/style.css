@@ -1,0 +1,48 @@
+
+
+/* Put Background image on login page */
+/*.container_login {
+    background: #eee url(/hms_plus/static/body_bg.png);
+    height: 100%;
+}
+.oe_login_form {
+
+	margin-top: 4%;
+        margin-left: 14%;
+}
+
+
+
+.form-control { 
+
+
+
+	width :57%
+
+}
+img#logo_img 
+
+{
+
+    margin-top: 42%;
+    width: 45%;
+    padding-left: 10%;
+
+}
+*/
+<style>
+    .square-box {
+        width: 200px; /* Adjust as needed */
+        height: 200px; /* Adjust as needed */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card-body {
+        padding: 0; /* Ensure there's no padding if you want a strict square */
+    }
+</style>
+
+
+

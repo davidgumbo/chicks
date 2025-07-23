@@ -1,0 +1,77 @@
+<odoo>
+    <record id="view_incomming_farm_po_tree" model="ir.ui.view">
+        <field name="name">incomming.farm.po.tree</field>
+        <field name="model">incomming.farm.po</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="farm_house_id"/>
+                <field name="user_id"/>
+                <field name="date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_incomming_farm_po_form" model="ir.ui.view">
+        <field name="name">incomming.farm.po.form</field>
+        <field name="model">incomming.farm.po</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button name="button_draft" string="Draft" type="object" class="btn-primary" invisible="state in ('done', 'confirm', 'draft','in_order','cancel')"/>
+                    <button name="button_confirm" string="Confirm" type="object" class="btn-primary" invisible="state in ('confirm', 'done','cancel','in_order')"/>
+                    <button name="button_done" string="Done" type="object" class="btn-primary" invisible="state in ('draft','done','cancel','confirm')"/>
+                    <button name="button_cancel" string="Cancel" type="object" class="btn-primary" invisible="state in ('done','in_order','cancel')"/>
+                    <button name="create_farm_purchase_order" string="Create Purchase Order" type="object" class="btn-primary" invisible="state in ('draft', 'done','in_order','cancel')"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="button_view_po" type="object" class="oe_stat_button" icon="fa-truck">
+                            <field name="po_count" widget="statinfo" string="Purchase Orders"/>
+                        </button>
+                    </div>
+                    <div>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="farm_house_id" required='1'/>
+                            <field name="company_id"/>
+                            <!-- <field name="location_id"/> -->
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name='Products'>
+                            <field name="incomming_farm_po_line_ids">
+                                <list editable="bottom">
+                                    <field name="normal_house_id"/>
+                                    <field name="product_id"/>
+                                    <field name="supplier_id"/>
+                                    <field name="qty"/>
+                                    <field name="price"/>
+                                    <field name="sub_total"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_incomming_farm_po" model="ir.actions.act_window">
+        <field name="name">Incoming Farm Purchase</field>
+        <field name="res_model">incomming.farm.po</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_incomming_farm_po_tree"/>
+    </record>
+
+
+</odoo>
