@@ -124,18 +124,18 @@
     <menuitem id="menu_chicken_farm_management" 
         name="Poultry"/>
 
-
-   <!--  <menuitem id="menu_poultry_management_dashboard_main"
-      name="Overview"
-      parent="menu_chicken_farm_management"
-      sequence='0'/> -->
-
+    <!-- Dashboard - First menu item -->
+    <menuitem id="menu_overview_poultry_main"
+        name="Dashboard"
+        parent="menu_chicken_farm_management"
+        action="action_poultry_management_dashboard"
+        sequence="1"/>
 
     <!-- Estimation -->
     <menuitem id="menu_hen_estimation"
         name="Costing"
         parent="menu_chicken_farm_management"
-        sequence="30"/>
+        sequence="40"/>
 
     <menuitem id="menu_hen_cost_estimation"
         name="Cost Estimation"
@@ -193,7 +193,7 @@
     <menuitem id="main_menu_hen_inward"
         name="Inward Management"
         parent="menu_chicken_farm_management"
-        sequence="10"
+        sequence="20"
         groups="group_manager,group_user"/>
 
         <menuitem id="menu_hen_incomming_po" 
@@ -245,7 +245,7 @@
     <menuitem id="main_menu_hen_production"
         name="Production"
         parent="menu_chicken_farm_management"
-        sequence="20"
+        sequence="30"
         groups="group_manager,group_user"/>
 
         <menuitem id="menu_hen_production_summary" 
@@ -296,7 +296,7 @@
     <menuitem id="main_menu_hatchery_poultry"
         name="Hatchery"
         parent="menu_chicken_farm_management"
-        sequence="40"
+        sequence="50"
         groups="group_manager,group_user"/>
 
         <menuitem id="menu_action_hatchery_poultry" 
@@ -313,7 +313,7 @@
     <menuitem id="main_menu_hen_vaternity"
         name="Veterinary"
         parent="menu_chicken_farm_management"
-        sequence="50"
+        sequence="60"
         groups="group_manager,group_user"/>
 
     <menuitem id="veterinary_sub_menu" 
@@ -338,7 +338,7 @@
     <menuitem id="main_menu_hen_traceability"
         name="Reports"
         parent="menu_chicken_farm_management"
-        sequence="60"
+        sequence="80"
         groups="group_manager,group_user"/>
 
     <menuitem action="stock.action_production_lot_form" 
@@ -373,12 +373,6 @@
         name="Poultry Batch Report"
         parent="main_menu_hen_traceability" 
         sequence="25"/>
-
-    <menuitem id="menu_overview_poultry"
-        name="Dashboard"
-        parent="main_menu_hen_traceability"
-        action="action_poultry_management_dashboard"
-        sequence='30'/>
 
     <!-- Distributions -->
     <menuitem id="menu_chicken_egg_distribution" 
