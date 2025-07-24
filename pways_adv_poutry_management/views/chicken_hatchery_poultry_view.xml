@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hatchery_poultry_form_views" model="ir.ui.view">
+            <field name="name">hatchery.poultry.form.view</field>
+            <field name="model">hatchery.poultry</field>
+            <field name="arch" type="xml">
+                <form >
+                    <header>
+                        <button name="action_create_bill" type="object" string="Create Equipments Bill" class="oe_highlight" invisible="states in ('draft', 'process', 'done', 'cancel')"/>
+                        <button name="action_create_material_bill" type="object" string="Production Movement" class="oe_highlight" invisible="states in ('draft', 'confirm','cancel','done')"/>
+                        <button name="action_create_picking" type="object" string="Material Consumption" class="oe_highlight" invisible="states in ('draft', 'process', 'done', 'cancel')"/>
+                        <field name="states" widget="statusbar"/>
+                        
+                        <button name="button_draft" type="object" string="Draft" class="oe_highlight" invisible="states in ('draft', 'confirm', 'process', 'done')"/>
+                        
+                        <button name="button_conform" type="object" string="Confirm" class="oe_highlight" invisible="states in ('confirm', 'process' ,'cancel', 'done')"/>
+                        
+                        <button name="button_process" type="object" string="Process" class="oe_highlight" invisible="states in ('draft', 'cancel','process', 'done')"/>
+
+                        <button name="button_done" type="object" string="Done" class="oe_highlight" invisible="states in ('draft', 'cancel','confirm', 'done')"/>
+                       
+                        <button name="button_cancel" type="object" string="Cancel" class="oe_highlight" invisible="states in ('cancel','process', 'done')"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_open_bill" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                                <field string="Bills" name="bill_count" widget="statinfo"/>
+                            </button>
+                            <button name="action_open_picking" type="object" class="oe_stat_button" icon="fa-truck">
+                                <field string="Picking" name="picking_count" widget="statinfo" />
+                            </button>
+                            <button name="action_open_scrap" type="object" class="oe_stat_button" icon="oi-arrows-v">
+                                <field string="Scraps" name="scrap_count" widget="statinfo" />
+                            </button>
+                        </div>
+                        <div>
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group >
+                            <group>
+                                <field name="company_id"/>
+                                <field name="user_id"/>
+                                <field name="lot_ids" widget="many2many_tags" required='1'/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="chicken_farm_id"/>
+                                <field name="destination_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Selection of Eggs">
+                                <field name="hatchery_selection_ids">
+                                    <list editable="bottom">
+                                        <field name="lot_id"/>
+                                        <field name="qty"/>
+                                        <field name="date"/>
+                                        <!-- <field name="yolk"/> -->
+                                        <field name="production_summary_id"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Equipments">
+                                <field name="hatchery_equipment_ids">
+                                    <list editable="bottom">
+                                        <field name="equipment_id"/>
+                                        <field name="description"/>
+                                        <field name="lot_ids" widget="many2many_tags"/>
+                                        <field name="qty"/>
+                                        <!-- <field name="uom_id"/> -->
+                                        <field name="unit_price"/>
+                                        <field name="sub_total"/>
+                                    </list>
+                                </field>
+                                <group>
+                                    <group class="oe_subtotal_footer oe_right" colspan="2" name="hatchery_equipment_total">
+                                        <field name="hatchery_equipment_total" readonly="1" string='Total'/>
+                                    </group>
+                                    <div class="clearfix"/>
+                                </group>
+                            </page>
+                            <page string="Materials">
+                                <field name="hatchery_material_ids">
+                                    <list editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="description"/>
+                                        <field name="lot_ids" widget="many2many_tags"/>
+                                        <field name="qty"/>
+                                        <field name="uom_id"/>
+                                        <field name="unit_price"/>
+                                        <field name="sub_total"/>
+                                    </list>
+                                </field>
+                                <group>
+                                    <group class="oe_subtotal_footer oe_right" colspan="2" name="hatchery_material_total">
+                                        <field name="hatchery_material_total" readonly="1" string='Total'/>
+                                    </group>
+                                    <div class="clearfix"/>
+                                </group>
+                            </page>
+                            <page string="Temperature">
+                                <field name="hatchery_temperature_ids">
+                                    <list editable="bottom">
+                                        <field name="date"/>
+                                        <field name="max_temp"/>
+                                        <field name="min_temp"/>
+                                        <field name="user_id"/>
+                                        <field name="humidity"/>
+                                        <field name="max_air_rate"/>
+                                        <field name="min_air_rate"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Sanitizer Cleaning">
+                                <field name="hatchery_sanitizer_cleaning_ids">
+                                    <list editable="bottom">
+                                        <field name="date"/>
+                                        <field name="user_id"/>
+                                        <field name="sen_in_time"/>
+                                        <field name="sen_out_time"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Incubator">
+                                <separator string="Incubator"/>
+                                <field name="hatchery_incubator_ids">
+                                    <list editable="bottom">
+                                        <field name="incubator_type"/>
+                                        <field name="max_humidity"/>
+                                        <field name="min_humidity"/>
+                                        <field name="max_temp"/>
+                                        <field name="min_temp"/>
+                                        <field name="max_ventilation"/>
+                                        <field name="min_ventilation"/>
+                                        <field name="date"/>
+                                        <field name="user_id"/>
+                                    </list>
+                                </field>
+                                <separator string="Fumigation"/>
+                                <field name="hatchery_fumigation_ids">
+                                    <list editable="bottom">
+                                        <field name="lot_id"/>
+                                        <field name="length"/>
+                                        <field name="height"/>
+                                        <field name="width"/>
+                                        <field name="material"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Others">
+                                <separator string="Ventilation"/>
+                                <field name="hatchery_ventilation_ids">
+                                    <list editable="bottom">
+                                        <field name="name"/>
+                                        <field name="max_ventilation"/>
+                                        <field name="min_ventilation"/>
+                                        <field name="date"/>
+                                        <field name="user_id"/>
+                                    </list>
+                                </field>
+                                <separator string="Turning"/>
+                                <field name="hatchery_turning_ids">
+                                    <list editable="bottom">
+                                        <field name="turn"/>
+                                        <field name="turn_type"/>
+                                        <field name="time"/>
+                                    </list>
+                                </field>
+                                <separator string="Candings"/>
+                                <field name="hatchery_candings_ids">
+                                    <list editable="bottom">
+                                        <field name="equipment_id"/>
+                                        <field name="date"/>
+                                        <field name="user_id"/>
+                                        <field name="name"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="hatchery_poultry_tree_view" model="ir.ui.view">
+            <field name="name">hatchery.poultry.tree.view</field>
+            <field name="model">hatchery.poultry</field>
+            <field name="arch" type="xml">
+               <list>
+                    <field name="name"/>
+                    <field name="company_id"/>
+                    <field name="user_id"/>
+                    <field name="date"/>
+                    <field name="chicken_farm_id"/>
+                    <field name="states"/>
+                </list>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hatchery_poultry">
+            <field name="name">Hatchery Poultry</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hatchery.poultry</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</odoo>
+
