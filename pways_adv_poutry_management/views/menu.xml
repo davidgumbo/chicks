@@ -125,10 +125,10 @@
         name="Poultry"/>
 
 
-   <!--  <menuitem id="menu_poultry_management_dashboard_main"
+   <menuitem id="menu_poultry_management_dashboard_main"
       name="Overview"
       parent="menu_chicken_farm_management"
-      sequence='0'/> -->
+      sequence='10'/>
 
 
     <!-- Estimation -->
