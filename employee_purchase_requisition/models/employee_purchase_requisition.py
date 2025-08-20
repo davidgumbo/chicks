@@ -105,6 +105,7 @@ class PurchaseRequisition(models.Model):
                               ('cancelled', 'Cancelled')], default='new',
                              copy=False, tracking=True)
 
+    @api.model
     def create(self, vals):
         """Function to generate purchase requisition sequence"""
         if vals.get('name', 'New') == 'New':
